@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.co.malleusconsulting.magnolia.ui.api.availability</groupId>
   <artifactId>site-config-availability-rule-module</artifactId>
-  <version>0.0.1-beta-01</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>site-config-availability-rule-module</name>

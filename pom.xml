@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.co.malleusconsulting.magnolia.ui.api.availability</groupId>
   <artifactId>site-config-availability-rule-module</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.0.1-beta-01</version>
   <packaging>jar</packaging>
 
   <name>site-config-availability-rule-module</name>
@@ -34,7 +34,7 @@
     <connection>scm:git:git://github.com/malleusconsulting/site-config-availability-rule-module.git</connection>
     <developerConnection>scm:git:git@github.com:malleusconsulting/site-config-availability-rule-module.git</developerConnection>
     <url>https://github.com/malleusconsulting/site-config-availability-rule-module</url>
-    <tag>HEAD</tag>
+    <tag>site-config-availability-rule-module-0.0.1-beta-01</tag>
   </scm>
 
   <distributionManagement>

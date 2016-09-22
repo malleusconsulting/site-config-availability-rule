@@ -1,3 +1,19 @@
+/**
+ * This file Copyright 2016 Malleus Consulting Ltd.
+ * All rights reserved.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package uk.co.malleusconsulting.magnolia.ui.api.availability;
 
 import info.magnolia.jcr.util.NodeUtil;
@@ -13,11 +29,9 @@ import javax.jcr.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SiteParameterAvailabilityRule extends
-		AbstractAvailabilityRule {
+public abstract class SiteParameterAvailabilityRule extends AbstractAvailabilityRule {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SiteParameterAvailabilityRule.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SiteParameterAvailabilityRule.class);
 
 	protected SiteFunctions siteFunctions;
 
@@ -38,19 +52,21 @@ public abstract class SiteParameterAvailabilityRule extends
 		}
 
 		try {
-			Node node = NodeUtil.getNodeByIdentifier(
-					RepositoryConstants.WEBSITE,
-					((JcrNodeItemId) itemId).getUuid());
+			/**
+			 * Retrieves the node from the website workspace. The workspace can
+			 * be taken from the itemId but the site mappings only refer to
+			 * website node paths
+			 */
+			Node node = NodeUtil.getNodeByIdentifier(RepositoryConstants.WEBSITE, ((JcrNodeItemId) itemId).getUuid());
+
 			Site site = siteFunctions.site(node);
 			if (site.getParameters().containsKey(getSiteParameter())
-					&& site.getParameters().get(getSiteParameter()) instanceof String) {
-				return Boolean.parseBoolean((String) site.getParameters().get(
-						getSiteParameter()));
+					&& site.getParameters().get(getSiteParameter()) instanceof Boolean) {
+				return (Boolean) site.getParameters().get(getSiteParameter());
 			}
+
 		} catch (RepositoryException e) {
-			LOG.error(
-					"Unable to retrieve node "
-							+ ((JcrNodeItemId) itemId).getUuid(), e);
+			LOG.error("Unable to retrieve node " + ((JcrNodeItemId) itemId).getUuid(), e);
 		}
 		return false;
 	}

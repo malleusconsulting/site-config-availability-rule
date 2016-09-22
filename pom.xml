@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.co.malleusconsulting.magnolia.ui.api.availability</groupId>
-  <artifactId>site-config-availability-rule-module</artifactId>
+  <artifactId>site-config-availability-rule</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>site-config-availability-rule-module</name>
+  <name>site-config-availability-rule</name>
   <description>Provides content app action availability rules that reference multisite config</description>
   <url>https://github.com/malleusconsulting/site-config-availability-rule-module</url>
 
@@ -31,9 +31,9 @@
   </properties>
 
   <scm>
-    <connection>scm:git:git://github.com/malleusconsulting/site-config-availability-rule-module.git</connection>
-    <developerConnection>scm:git:git@github.com:malleusconsulting/site-config-availability-rule-module.git</developerConnection>
-    <url>https://github.com/malleusconsulting/site-config-availability-rule-module</url>
+    <connection>scm:git:git://github.com/malleusconsulting/site-config-availability-rule.git</connection>
+    <developerConnection>scm:git:git@github.com:malleusconsulting/site-config-availability-rule.git</developerConnection>
+    <url>https://github.com/malleusconsulting/site-config-availability-rule</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -75,6 +75,34 @@
       <version>2.5</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- TEST -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.1.0-RC.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-core</artifactId>
+      <version>${magnoliaVersion}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>info.magnolia</groupId>
+      <artifactId>magnolia-imaging-support</artifactId>
+      <version>3.2.5</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -97,22 +125,6 @@
         </configuration>
       </plugin>
     </plugins>
-
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>true</filtering>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>META-INF/magnolia/*</include>
-        </includes>
-      </resource>
-    </resources>
   </build>
 
   <profiles>

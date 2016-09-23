@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
 
   <name>site-config-availability-rule</name>
-  <description>Provides content app action availability rules that reference multisite config</description>
+  <description>Provides a content app action availability rule that references site configuration parameters</description>
   <url>https://github.com/malleusconsulting/site-config-availability-rule-module</url>
 
   <licenses>
@@ -102,7 +102,6 @@
       <version>3.2.5</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>

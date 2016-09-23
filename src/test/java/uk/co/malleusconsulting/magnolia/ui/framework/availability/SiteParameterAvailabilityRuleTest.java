@@ -1,4 +1,20 @@
-package uk.co.malleusconsulting.magnolia.ui.api.availability;
+/**
+ * This file Copyright 2016 Malleus Consulting Ltd.
+ * All rights reserved.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package uk.co.malleusconsulting.magnolia.ui.framework.availability;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -24,24 +40,15 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import uk.co.malleusconsulting.magnolia.ui.api.availability.SiteParameterAvailabilityRuleDefinition;
+
 import com.google.common.collect.ImmutableMap;
 
 public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 
 	private static final String SITE_PARAMETER = "testParameter";
 
-	private class TestAvailabilityRule extends SiteParameterAvailabilityRule {
-
-		public TestAvailabilityRule(SiteFunctions siteFunctions) {
-			super(siteFunctions);
-		}
-
-		@Override
-		protected String getSiteParameter() {
-			return SITE_PARAMETER;
-		}
-	}
-
+	private SiteParameterAvailabilityRuleDefinition definition;
 	private SiteFunctions siteFunctions;
 	private String nodeMappedToTrueSiteId;
 	private String nodeMappedToFalseSiteId;
@@ -92,6 +99,9 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 				}
 			}
 		});
+
+		definition = mock(SiteParameterAvailabilityRuleDefinition.class);
+		when(definition.getParameterName()).thenReturn(SITE_PARAMETER);
 	}
 
 	@Test
@@ -99,7 +109,7 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 		JcrNodeItemId jcrNodeItemId = mock(JcrNodeItemId.class);
 		when(jcrNodeItemId.getUuid()).thenReturn(nodeMappedToTrueSiteId);
 
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertTrue(testRule.isAvailableForItem(jcrNodeItemId));
 	}
 
@@ -108,7 +118,7 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 		JcrNodeItemId jcrNodeItemId = mock(JcrNodeItemId.class);
 		when(jcrNodeItemId.getUuid()).thenReturn(nodeMappedToFalseSiteId);
 
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertFalse(testRule.isAvailableForItem(jcrNodeItemId));
 	}
 
@@ -117,7 +127,7 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 		JcrNodeItemId jcrNodeItemId = mock(JcrNodeItemId.class);
 		when(jcrNodeItemId.getUuid()).thenReturn(nodeMappedToNotConfiguredSiteId);
 
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertFalse(testRule.isAvailableForItem(jcrNodeItemId));
 	}
 
@@ -126,13 +136,13 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 		JcrNodeItemId jcrNodeItemId = mock(JcrNodeItemId.class);
 		when(jcrNodeItemId.getUuid()).thenReturn(nodeMappedToMisconfiguredSiteId);
 
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertFalse(testRule.isAvailableForItem(jcrNodeItemId));
 	}
 
 	@Test
 	public void ruleReturnsFalseWhenNotGivenAJcrNodeItemId() {
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertFalse(testRule.isAvailableForItem(new Object()));
 	}
 
@@ -141,7 +151,7 @@ public class SiteParameterAvailabilityRuleTest extends RepositoryTestCase {
 		JcrNodeItemId jcrNodeItemId = mock(JcrNodeItemId.class);
 		when(jcrNodeItemId.getUuid()).thenReturn("an-invalid-guid");
 
-		SiteParameterAvailabilityRule testRule = new TestAvailabilityRule(siteFunctions);
+		SiteParameterAvailabilityRule testRule = new SiteParameterAvailabilityRule(siteFunctions, definition);
 		assertFalse(testRule.isAvailableForItem(jcrNodeItemId));
 	}
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package uk.co.malleusconsulting.magnolia.ui.api.availability;
+package uk.co.malleusconsulting.magnolia.ui.framework.availability;
 
 import info.magnolia.jcr.util.NodeUtil;
 import info.magnolia.module.site.Site;
@@ -29,19 +29,22 @@ import javax.jcr.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class SiteParameterAvailabilityRule extends AbstractAvailabilityRule {
+import uk.co.malleusconsulting.magnolia.ui.api.availability.SiteParameterAvailabilityRuleDefinition;
+
+public class SiteParameterAvailabilityRule extends AbstractAvailabilityRule {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SiteParameterAvailabilityRule.class);
 
 	protected SiteFunctions siteFunctions;
+	protected String parameterName;
 
-	public SiteParameterAvailabilityRule(SiteFunctions siteFunctions) {
+	public SiteParameterAvailabilityRule(SiteFunctions siteFunctions, SiteParameterAvailabilityRuleDefinition definition) {
 		this.siteFunctions = siteFunctions;
+		this.parameterName = definition.getParameterName();
 	}
 
-	protected abstract String getSiteParameter();
-
-	protected final boolean isAvailableForItem(Object itemId) {
+	@Override
+	public boolean isAvailableForItem(Object itemId) {
 
 		/**
 		 * if the itemId is not a JcrNodeItemId, we cannot retrieve the node and
@@ -60,9 +63,9 @@ public abstract class SiteParameterAvailabilityRule extends AbstractAvailability
 			Node node = NodeUtil.getNodeByIdentifier(RepositoryConstants.WEBSITE, ((JcrNodeItemId) itemId).getUuid());
 
 			Site site = siteFunctions.site(node);
-			if (site.getParameters().containsKey(getSiteParameter())
-					&& site.getParameters().get(getSiteParameter()) instanceof Boolean) {
-				return (Boolean) site.getParameters().get(getSiteParameter());
+			if (site.getParameters().containsKey(parameterName)
+					&& site.getParameters().get(parameterName) instanceof Boolean) {
+				return (Boolean) site.getParameters().get(parameterName);
 			}
 
 		} catch (RepositoryException e) {
